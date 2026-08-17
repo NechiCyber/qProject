@@ -1,0 +1,33 @@
+name: Build qProject
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            gcc \
+            binutils \
+            nasm \
+            make \
+            qemu-system-x86
+
+      - name: Build qOS
+        run: |
+          cd qOS
+          make
+
+      - name: Build qBoot
+        run: |
+          cd qBoot/bootloader/x86_64
+          make
